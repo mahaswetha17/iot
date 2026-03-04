@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Doctor Panel</h1>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Doctors</h2>
+        {% for doctor in doctors %}
+            <p>{{ doctor.name }} - {{ doctor.specialization }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h2>All Patients</h2>
+        {% for patient in patients %}
+            <p>{{ patient.name }} - {{ patient.condition }}</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

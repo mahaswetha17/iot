@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>🏥 Patient Dashboard</h1>
+</header>
+
+<div class="container">
+
+    <!-- Patient Info -->
+    <div class="card">
+        <h2>{{ patient.name }}</h2>
+        <p><strong>Age:</strong> {{ patient.age }}</p>
+        <p><strong>Condition:</strong> {{ patient.condition }}</p>
+        <p><strong>Medication:</strong> {{ patient.medication }}</p>
+        <p><strong>Next Appointment:</strong> {{ patient.next_appointment }}</p>
+    </div>
+
+    <!-- Medicine Reminder -->
+    <div class="card">
+        <h2>💊 Medicine Reminder</h2>
+        <p>Take your prescribed medication daily at <strong>9:00 AM</strong>.</p>
+        <p style="color:#22c55e;">✔ Reminder Active</p>
+    </div>
+
+    <!-- Health Tracking Chart -->
+    <div class="card">
+        <h2>📊 Weekly Blood Pressure Tracking</h2>
+        <canvas id="healthChart"></canvas>
+    </div>
+
+</div>
+<div id="health-data"
+     data-values='{{ health_data | tojson | safe }}'
+     style="display:none;">
+</div>
+<script>
+    // Get data from hidden div attribute
+    const healthData = JSON.parse(
+        document.getElementById("health-data").dataset.values
+    );
+
+    const ctx = document.getElementById('healthChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            datasets: [{
+                label: 'Blood Pressure (mmHg)',
+                data: healthData,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                tension: 0.4,
+                fill: true
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
